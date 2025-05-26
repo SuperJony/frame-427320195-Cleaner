@@ -22,6 +22,7 @@ const PLUGIN_GENERATED_NAMES = [
   "frame",
   "grid",
   "row",
+  "row-wrap",
   "col",
   "video",
   "image",
@@ -33,11 +34,11 @@ const PLUGIN_GENERATED_NAMES = [
 
 /**
  * 创建用于匹配插件生成名称的正则表达式
- * 格式: name-[number] 或 name-[number,number]
- * 例如: "frame-[1]" 或 "grid-[1,2]"
+ * 格式: name-[number] 或 name-[number,number] 或 name-[]
+ * 例如: "frame-[1]" 或 "grid-[1,2]" 或 "row-[]"
  */
 const PLUGIN_NAME_PATTERN = new RegExp(
-  `^(${PLUGIN_GENERATED_NAMES.join("|")})(-\\[\\d+(?:,\\s*\\d+)?\\])?$`,
+  `^(${PLUGIN_GENERATED_NAMES.join("|")})(-\\[\\d*(?:,\\s*\\d+)?\\])?$`,
   "i"
 );
 
@@ -52,7 +53,7 @@ function isPluginGeneratedNameBasedOnType(
   name: string
 ): boolean {
   // 移除可能的间距信息后再进行匹配
-  const baseName = name.replace(/-\[\d+(?:,\s*\d+)?\]$/, "");
+  const baseName = name.replace(/-\[\d*(?:,\s*\d+)?\]$/, "");
 
   switch (baseName) {
     case "group":
@@ -60,6 +61,7 @@ function isPluginGeneratedNameBasedOnType(
     case "frame":
     case "grid":
     case "row":
+    case "row-wrap":
     case "col":
       return node.type === "FRAME";
     case "image":
@@ -311,7 +313,7 @@ export default async function () {
   // 监听 UI 设置面板开关事件
   on("SETTING_OPEN", (data: { settingOpen: boolean; language: string }) => {
     const baseHeight = data.language === "zh" ? 262 : 246;
-    figma.ui.resize(240, data.settingOpen ? 456 : baseHeight);
+    figma.ui.resize(240, data.settingOpen ? 488 : baseHeight);
   });
 
   // 监听重命名事件

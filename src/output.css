@@ -558,6 +558,10 @@ video {
   visibility: visible;
 }
 
+.row-\[\] {
+  grid-row: ;
+}
+
 .flex {
   display: flex;
 }
@@ -580,6 +584,18 @@ video {
 
 .w-full {
   width: 100%;
+}
+
+.w-\[208px\] {
+  width: 208px;
+}
+
+.w-\[200px\] {
+  width: 200px;
+}
+
+.w-\[204px\] {
+  width: 204px;
 }
 
 .resize {

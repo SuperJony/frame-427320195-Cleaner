@@ -8,13 +8,14 @@ enum FrameType {
   FRAME = "frame",
   GRID = "grid",
   ROW = "row",
+  ROW_WRAP = "row-wrap",
   COL = "col",
 }
 
 /**
  * Frame 布局类型
  */
-type LayoutMode = "NONE" | "HORIZONTAL" | "VERTICAL";
+type LayoutMode = "NONE" | "HORIZONTAL" | "VERTICAL" | "GRID";
 
 /**
  * Frame 命名策略类
@@ -73,11 +74,18 @@ export class FrameNamingStrategy extends BaseNamingStrategy {
    * 获取基础 Frame 名称
    */
   private getBaseFrameName(node: FrameNode): FrameType {
-    if (node.layoutMode === "HORIZONTAL") {
-      return node.layoutWrap === "WRAP" ? FrameType.GRID : FrameType.ROW;
+    // 使用类型断言来处理新的 GRID 类型，因为 Figma 类型定义可能还未更新
+    const layoutMode = node.layoutMode as LayoutMode;
+
+    if (layoutMode === "GRID") {
+      return FrameType.GRID;
     }
 
-    if (node.layoutMode === "VERTICAL") {
+    if (layoutMode === "HORIZONTAL") {
+      return node.layoutWrap === "WRAP" ? FrameType.ROW_WRAP : FrameType.ROW;
+    }
+
+    if (layoutMode === "VERTICAL") {
       return FrameType.COL;
     }
 
@@ -105,7 +113,11 @@ export class FrameNamingStrategy extends BaseNamingStrategy {
    * 检查是否为网格布局
    */
   private isGridLayout(name: string): boolean {
-    return name === FrameType.GRID.toLowerCase();
+    const normalizedName = name.toLowerCase();
+    return (
+      normalizedName === FrameType.GRID.toLowerCase() ||
+      normalizedName === FrameType.ROW_WRAP.toLowerCase()
+    );
   }
 
   /**
@@ -121,9 +133,20 @@ export class FrameNamingStrategy extends BaseNamingStrategy {
    * 添加网格布局的间距信息
    */
   private addGridSpacing(name: string, node: FrameNode): string {
-    return node.itemSpacing === node.counterAxisSpacing
-      ? `${name}-[${node.itemSpacing}]`
-      : `${name}-[${node.itemSpacing},${node.counterAxisSpacing}]`;
+    const normalizedName = name.toLowerCase();
+
+    if (normalizedName === FrameType.GRID.toLowerCase()) {
+      // 暂时移除 grid 的间距数值，因为间距无法正确获取
+      return `${name}-[]`;
+    }
+
+    if (normalizedName === FrameType.ROW_WRAP.toLowerCase()) {
+      return node.itemSpacing === node.counterAxisSpacing
+        ? `${name}-[${node.itemSpacing}]`
+        : `${name}-[${node.itemSpacing},${node.counterAxisSpacing}]`;
+    }
+
+    return name;
   }
 
   /**

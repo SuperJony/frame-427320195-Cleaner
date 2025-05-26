@@ -184,7 +184,7 @@ function Plugin({
         open={settingOpen}
         title={t.settingsTitle}
       >
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 w-[204px]">
           {settingOptionsConfig.map((option) => (
             <Checkbox
               key={option.key}
@@ -205,7 +205,7 @@ function Plugin({
             </Checkbox>
           ))}
           <Divider />
-          <div className="flex flex-row justify-between items-center w-[240px]">
+          <div className="flex flex-row justify-between items-center">
             <Text>{t.languageLabel}</Text>
             <SegmentedControl
               options={languageOptions}

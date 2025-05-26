@@ -49,7 +49,8 @@ export const i18n: Record<Language, Translation> = {
       },
       showSpacing: {
         title: "Show Spacing",
-        // description: "Show auto layout spacing in layer names",
+        description:
+          "Grid spacing cannot be displayed, please wait for Figma to update",
       },
       usePascalCase: {
         title: "Use PascalCase",
@@ -83,7 +84,7 @@ export const i18n: Record<Language, Translation> = {
       },
       showSpacing: {
         title: "显示间距",
-        // description: "在图层名称中显示自动布局间距",
+        description: "目前 grid 间距无法显示，请等待 Figma 更新",
       },
       usePascalCase: {
         title: "使用大驼峰命名",
