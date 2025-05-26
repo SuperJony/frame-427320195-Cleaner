@@ -22,7 +22,7 @@ const PLUGIN_GENERATED_NAMES = [
   "frame",
   "grid",
   "row",
-  "row-wrap",
+  "wrap",
   "col",
   "video",
   "image",
@@ -61,7 +61,7 @@ function isPluginGeneratedNameBasedOnType(
     case "frame":
     case "grid":
     case "row":
-    case "row-wrap":
+    case "wrap":
     case "col":
       return node.type === "FRAME";
     case "image":

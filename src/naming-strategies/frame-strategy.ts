@@ -8,7 +8,7 @@ enum FrameType {
   FRAME = "frame",
   GRID = "grid",
   ROW = "row",
-  ROW_WRAP = "row-wrap",
+  ROW_WRAP = "wrap",
   COL = "col",
 }
 
